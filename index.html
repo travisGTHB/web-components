@@ -26,17 +26,76 @@
 <body>
   <h1>polaris-chip</h1>
   <!-- this is going to do whatever the tag's defaults are -->
-  <polaris-chip title="News of Record" link="https://psu.edu/"></polaris-chip>
-  <polaris-chip title="Faculty and Staff"></polaris-chip>
-  <polaris-chip title="Sports are the only thing that matter"></polaris-chip>
-  <polaris-chip title="Grants and donations"></polaris-chip>
+  <div class="controls">
+    <polaris-chip title="Add Card" link="#" id="add"></polaris-chip>
+    <polaris-chip title="Change Card" link="#" id="transform"></polaris-chip>
+    <polaris-chip title="Remove Card" link="#" id="remove"></polaris-chip>
+  </div>
 
-  <h1>my-card</h1>
-  <my-card></my-card>
+  <h1>Cards</h1>
+  <div class="card-container">
+    <my-card
+      title="Be My Valentine"
+      image="https://www.rainbownourishments.com/wp-content/uploads/2024/02/heart-shaped-cake-decorating-tutorial-vegan-raspberry-lemon-1.jpg"
+      description="Ask someone to be your Valentine!"
+      buttonText="Details"
+      background-color="Red">
+    </my-card>
+
+    <my-card
+      title="Happy Birthday"
+      image="https://cdn.apartmenttherapy.info/image/upload/f_jpg,q_auto:eco,c_fill,g_auto,w_1500,ar_16:9/at%2Farchive%2F0e1022424e3ebb40c7ba5ca1161eaa092d41a014"
+      description="Make a wish!"
+      buttonText="Details"
+      background-color="Yellow">
+    </my-card>
+
+    <my-card
+      title="Happy St. Patrick's Day"
+      image="https://www.farmersalmanac.com/wp-content/uploads/2022/03/St-Patricks-Day-Shamrock-840x630.jpeg"
+      description="Celebrate with green cupcakes!"
+      buttonText="Details"
+      background-color="Green">
+    </my-card>
+
+    <my-card
+      title="Happy New Year"
+      image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ4TXDkOpemrp33QCp5P7cuVhHN7lNY31NXQ&s"
+      description="Celebrate the new year!"
+      buttonText="Details"
+      background-color="Blue">
+    </my-card>
+
+    <my-card
+      title="Happy Thanksgiving"
+      image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb4tjLuhTEBnIcT8NKyke3ON2KenxTh4wiZA&s"
+      description="Celebrate with delicious Thanksgiving cupcakes!"
+      buttonText="Details"
+      background-color="Orange">
+    </my-card>
+  </div>
 
   <!-- this is what is bringing in the definition for this tag -->
   <script type="module" src="./src/polaris-chip.js"></script>
   <script type="module" src="./src/my-card.js"></script>
+  <script>
+    document.querySelector('#add').addEventListener('click', (event) => {
+      const newCard = document.createElement('my-card');
+      document.querySelector('.card-container').appendChild(newCard);
+    });
+    document.querySelector('#transform').addEventListener('click', (event) => {
+      const card = document.querySelector('.card-container my-card');
+      if (card) {
+        card.title = "Transformed Card";
+        card.buttonText = "Transformed Details";
+      }
+    });
+    document.querySelector('#remove').addEventListener('click', (event) => {
+      const card = document.querySelector('.card-container my-card');
+      if (card) {
+        card.remove();
+      }
+    });
+  </script>
 </body>
-
 </html>
