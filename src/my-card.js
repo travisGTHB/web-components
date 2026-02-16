@@ -14,6 +14,7 @@ export class MyCard extends LitElement {
       link: { type: String },
       buttonText: { type: String, attribute: 'buttonText' },
       backgroundColor: { type: String, attribute: 'background-color' },
+      fancy: { type: Boolean, reflect: true },
     };
   }
 
@@ -25,6 +26,7 @@ export class MyCard extends LitElement {
     this.link = "#";
     this.buttonText = "Details";
     this.backgroundColor = "white";
+    this.fancy = false;
   }
 
   static get styles() {
@@ -34,16 +36,19 @@ export class MyCard extends LitElement {
         margin: 10px;
         vertical-align: top;
       }
+      :host([fancy]) .card {
+        border-color: gray;
+        box-shadow: 0 0 10px black;
+      }
       .card {
         border: 2px solid #ccc;
         padding: 16px;
         width: 300px;
         border-radius: 8px;
         box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease;
         display: flex;
         flex-direction: column;
-        min-height: 400px;
+        min-height: 450px;
       }
       .card-title {
         text-align: center;
@@ -57,27 +62,41 @@ export class MyCard extends LitElement {
         display: block;
         border-radius: 4px;
       }
-      .card-context {
-        padding: 8px 0;
+      .card-content {
         display: flex;
         flex-direction: column;
         flex: 1;
-        justify-content: space-between;
+      }
+       details summary {
+        text-align: left;
+        font-size: 20px;
+        padding: 8px 0;
+      }
+      details[open] summary {
+        font-weight: bold;
+      }
+      details div {
+        border: 2px gray solid;
+        text-align: left;
+        padding: 8px;
+        height: 70px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        overflow-wrap: break-word;
       }
       .card-description {
         text-align: left;
         margin-bottom: 16px;
       }
       .card-button {
+        margin: auto auto 0 auto; 
         display: block;
-        margin: 0 auto;
         width: fit-content;
         padding: 8px 16px;
         background-color: #007bff;
         color: white;
         text-decoration: none;
         border-radius: 4px;
-        transition: background-color 0.3s ease;
       }
       .card-button:hover { 
         background-color: #0056b3;
@@ -85,13 +104,29 @@ export class MyCard extends LitElement {
     `;
   }
 
-  render() {
+  openChanged(e) {
+  console.log(e);
+  if (e.target.getAttribute('open') !== null) {
+    this.fancy = true;
+  }
+  else {
+    this.fancy = false;
+  }
+}
+
+ render() {
     return html`
       <section class="card" style="background-color: ${this.backgroundColor}">
         <h2 class="card-title">${this.title}</h2>
         <img class="card-image" src="${this.image}" alt="${this.title}">
-        <div class="card-context">
-          <p class="card-description">${this.description}</p>
+        <div class="card-content">
+          <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+            <summary>Description</summary>
+            <div>
+              ${this.description}
+              <slot></slot>
+            </div>
+          </details>
           <a href="${this.link}" class="card-button">${this.buttonText}</a>
         </div>
       </section>
